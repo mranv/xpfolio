@@ -3,8 +3,10 @@ import { WinXPWindow } from '../components/ui/WinXPWindow'
 import { winXPColors } from '../utils/winxp-theme'
 import { winXPAssets } from '../assets/winxp'
 import { motion } from 'framer-motion'
+import { useNotification } from '../contexts/NotificationContext'
 
 export const Dashboard = () => {
+  const { showNotification } = useNotification()
   const [windows, setWindows] = useState([
     { id: 'stats', isOpen: true },
     { id: 'activity', isOpen: true }
@@ -14,6 +16,15 @@ export const Dashboard = () => {
     setWindows(windows.map(w => 
       w.id === id ? { ...w, isOpen: !w.isOpen } : w
     ))
+  }
+
+  const handleActivityClick = (activity: typeof activities[0]) => {
+    showNotification(
+      'Activity Update',
+      `${activity.title} - ${activity.status}`,
+      activity.status === 'Completed' ? 'success' : 
+      activity.status === 'Pending' ? 'info' : 'error'
+    )
   }
 
   return (
@@ -60,14 +71,15 @@ export const Dashboard = () => {
           defaultPosition={{ x: 100, y: 300 }}
         >
           <div className="space-y-2">
-            {activities.map((activity, index) => (
+            {activities.map((activity) => (
               <motion.div
                 key={activity.title}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-center justify-between p-3 rounded"
+                className="flex items-center justify-between p-3 rounded cursor-pointer"
                 style={{ background: winXPColors.silver.medium }}
+                onClick={() => handleActivityClick(activity)}
               >
                 <div className="flex items-center space-x-4">
                   <span className="text-xl">{activity.icon}</span>

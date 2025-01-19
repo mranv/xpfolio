@@ -3,8 +3,10 @@ import { WinXPWindow } from '../components/ui/WinXPWindow'
 import { WinXPButton } from '../components/ui/WinXPButton'
 import { winXPAssets } from '../assets/winxp'
 import { motion } from 'framer-motion'
+import { useNotification } from '../contexts/NotificationContext'
 
 export const Home = () => {
+  const { showNotification } = useNotification()
   const [windows, setWindows] = useState([
     { id: 'welcome', isOpen: true },
     { id: 'about', isOpen: false },
@@ -17,8 +19,24 @@ export const Home = () => {
     ))
   }
 
+  const handleTestNotification = () => {
+    showNotification(
+      'Welcome to Windows XP',
+      'This is a test notification to demonstrate the Windows XP style notifications.',
+      'info'
+    )
+  }
+
   return (
     <div className="p-4">
+      {/* Add a test button */}
+      <WinXPButton 
+        onClick={handleTestNotification}
+        icon={winXPAssets.icons.info}
+      >
+        Show Notification
+      </WinXPButton>
+
       {/* Welcome Window */}
       {windows.find(w => w.id === 'welcome')?.isOpen && (
         <WinXPWindow

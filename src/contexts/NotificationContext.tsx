@@ -1,7 +1,9 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
 import { WinXPNotification } from '../components/WinXPNotification'
+import { winXPAssets } from '../assets/winxp'
+import { soundManager } from '../utils/sound-manager'
 
-type NotificationType = 'info' | 'error' | 'success' | 'warning'
+type NotificationType = 'info' | 'error' | 'success'
 
 interface Notification {
   id: string
@@ -24,12 +26,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     const notification = { id, title, message, type }
     
     // Play sound based on type
-    const audio = new Audio(
-      type === 'error' ? winXPAssets.sounds.error :
-      type === 'success' ? winXPAssets.sounds.notify :
-      winXPAssets.sounds.click
-    )
-    audio.play()
+    soundManager.play(type === 'error' ? 'error' : type === 'success' ? 'notify' : 'click')
 
     setNotifications(prev => [...prev, notification])
     setTimeout(() => {

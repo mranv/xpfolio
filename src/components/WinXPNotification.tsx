@@ -1,4 +1,4 @@
-import { m as motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { winXPColors } from '../utils/winxp-theme'
 import { winXPAssets } from '../assets/winxp'
 
