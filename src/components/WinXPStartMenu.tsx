@@ -57,79 +57,120 @@ export const WinXPStartMenu = ({ isOpen, onClose, onOpenWindow }: StartMenuProps
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-black/20"
+            className="fixed inset-0 z-40"
             onClick={onClose}
           />
 
-          {/* Start Menu */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-12 left-0 w-80 bg-white shadow-lg rounded-t-lg overflow-hidden z-50"
-            style={{ border: `1px solid ${winXPColors.silver.dark}` }}
-            onClick={(e) => e.stopPropagation()}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-12 left-0 w-96 bg-[#D3E5FA] shadow-xl overflow-hidden z-50"
+            style={{ 
+              border: '1px solid #0831D9',
+              borderRadius: '8px 8px 0 0'
+            }}
           >
-            {/* User Section */}
-            <div className="p-4 flex items-center space-x-3" style={{ 
-              background: `linear-gradient(to right, ${winXPColors.blue.primary}, ${winXPColors.blue.secondary})`
-            }}>
+            {/* User Section - Classic XP Blue */}
+            <div 
+              className="h-24 p-4 flex items-center space-x-4"
+              style={{ 
+                background: 'linear-gradient(to right, #245EDC, #3C91F9)',
+                borderBottom: '1px solid #1550C4'
+              }}
+            >
               <img 
                 src={winXPAssets.icons.user} 
                 alt="User" 
-                className="w-12 h-12 rounded-full border-2 border-white"
+                className="w-16 h-16 rounded-full border-2 border-white shadow-lg"
               />
               <div className="text-white">
-                <h3 className="font-bold">Anubhav Gain</h3>
-                <p className="text-sm opacity-90">DevSecOps Engineer</p>
+                <h3 className="text-lg font-bold drop-shadow">Anubhav Gain</h3>
+                <p className="text-sm text-white/90">DevSecOps Engineer</p>
               </div>
             </div>
 
-            {/* Menu Items */}
-            <div className="p-2 space-y-1">
-              {menuItems.map((item) => (
-                <button
-                  key={item.label}
-                  onClick={item.onClick}
-                  className="w-full flex items-start p-2 hover:bg-blue-50 rounded group transition-colors"
-                >
-                  <img src={item.icon} alt="" className="w-8 h-8 mr-3" />
-                  <div className="text-left">
-                    <span className="font-medium group-hover:text-blue-600">
-                      {item.label}
-                    </span>
-                    <p className="text-xs text-gray-500">
-                      {item.description}
-                    </p>
-                  </div>
-                </button>
-              ))}
+            <div className="flex">
+              {/* Left Column - Main Menu */}
+              <div className="w-3/5 p-2 space-y-1 bg-white">
+                {menuItems.map((item) => (
+                  <button
+                    key={item.label}
+                    onClick={item.onClick}
+                    className="w-full flex items-start p-2 hover:bg-[#2F71E3] hover:text-white rounded transition-colors group"
+                  >
+                    <img src={item.icon} alt="" className="w-8 h-8 mr-3" />
+                    <div className="text-left">
+                      <span className="font-medium">{item.label}</span>
+                      <p className="text-xs group-hover:text-white/90">
+                        {item.description}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {/* Right Column - Quick Links */}
+              <div className="w-2/5 bg-[#D3E5FA] p-2 space-y-1">
+                <div className="text-xs font-bold text-gray-700 px-2 mb-2">
+                  Quick Links
+                </div>
+                {quickLinks.map((link) => (
+                  <button
+                    key={link.label}
+                    onClick={link.onClick}
+                    className="w-full flex items-center space-x-3 p-2 hover:bg-[#2F71E3] hover:text-white rounded text-sm"
+                  >
+                    <img src={link.icon} alt="" className="w-5 h-5" />
+                    <span>{link.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* Separator */}
-            <div className="border-t border-gray-200 my-2" />
-
-            {/* Bottom Items */}
-            <div className="p-2 bg-gray-50">
-              {bottomItems.map((item) => (
-                <button
-                  key={item.label}
-                  onClick={item.onClick}
-                  className="w-full flex items-center space-x-3 p-2 hover:bg-blue-50 rounded transition-colors"
-                >
-                  <img src={item.icon} alt="" className="w-6 h-6" />
-                  <span>{item.label}</span>
-                </button>
-              ))}
+            {/* Bottom Section */}
+            <div 
+              className="border-t border-gray-300 bg-[#D3E5FA]"
+              style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.1)' }}
+            >
+              <div className="p-2 space-y-1">
+                {bottomItems.map((item) => (
+                  <button
+                    key={item.label}
+                    onClick={item.onClick}
+                    className="w-full flex items-center space-x-3 p-2 hover:bg-[#2F71E3] hover:text-white rounded"
+                  >
+                    <img src={item.icon} alt="" className="w-6 h-6" />
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </motion.div>
         </>
       )}
     </AnimatePresence>
   )
-} 
+}
+
+const quickLinks = [
+  {
+    icon: winXPAssets.icons.myDocuments,
+    label: 'My Documents',
+    onClick: () => {}
+  },
+  {
+    icon: winXPAssets.icons.myComputer,
+    label: 'My Computer',
+    onClick: () => {}
+  },
+  {
+    icon: winXPAssets.icons.network,
+    label: 'Network',
+    onClick: () => {}
+  }
+] 
