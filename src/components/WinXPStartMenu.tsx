@@ -1,32 +1,42 @@
 import { m as motion, AnimatePresence } from 'framer-motion'
 import { winXPColors } from '../utils/winxp-theme'
 import { winXPAssets } from '../assets/winxp'
-import { Link } from 'react-router-dom'
+import { soundManager } from '../utils/sound-manager'
 
 interface StartMenuProps {
   isOpen: boolean
   onClose: () => void
+  onOpenWindow: (id: string, title: string) => void
 }
 
-export const WinXPStartMenu = ({ isOpen, onClose }: StartMenuProps) => {
+export const WinXPStartMenu = ({ isOpen, onClose, onOpenWindow }: StartMenuProps) => {
+  const handleMenuClick = (id: string, title: string) => {
+    soundManager.play('click')
+    onOpenWindow(id, title)
+    onClose()
+  }
+
   const menuItems = [
     {
+      id: 'my-computer',
       icon: winXPAssets.icons.myComputer,
       label: 'My Computer',
       description: 'View system information',
-      onClick: () => {}
+      onClick: () => handleMenuClick('my-computer', 'My Computer')
     },
     {
-      icon: winXPAssets.icons.myDocuments,
-      label: 'My Documents',
-      description: 'View projects and publications',
-      onClick: () => {}
-    },
-    {
+      id: 'security-center',
       icon: winXPAssets.icons.security,
       label: 'Security Center',
       description: 'View security metrics and certifications',
-      onClick: () => {}
+      onClick: () => handleMenuClick('security-center', 'Security Center')
+    },
+    {
+      id: 'projects',
+      icon: winXPAssets.icons.folder,
+      label: 'My Projects',
+      description: 'View projects and publications',
+      onClick: () => handleMenuClick('projects', 'My Projects')
     }
   ]
 
@@ -34,12 +44,12 @@ export const WinXPStartMenu = ({ isOpen, onClose }: StartMenuProps) => {
     {
       icon: winXPAssets.icons.shutdown,
       label: 'Turn Off Computer',
-      onClick: () => {}
+      onClick: () => window.close()
     },
     {
       icon: winXPAssets.icons.user,
       label: 'Log Off',
-      onClick: () => {}
+      onClick: () => window.location.reload()
     }
   ]
 

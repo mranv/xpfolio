@@ -2,6 +2,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { WinXPLayout } from './components/WinXPLayout'
 import { NotificationProvider } from './contexts/NotificationContext'
+import { WindowProvider } from './contexts/WindowContext'
 import { Routes } from './Routes'
 
 function App() {
@@ -9,9 +10,11 @@ function App() {
     <HelmetProvider>
       <Router>
         <NotificationProvider>
-          <WinXPLayout>
-            <Routes />
-          </WinXPLayout>
+          <WindowProvider>
+            <WinXPLayout>
+              <Routes />
+            </WinXPLayout>
+          </WindowProvider>
         </NotificationProvider>
       </Router>
     </HelmetProvider>

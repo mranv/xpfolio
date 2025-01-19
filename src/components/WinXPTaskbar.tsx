@@ -3,11 +3,12 @@ import { winXPColors } from '../utils/winxp-theme'
 import { winXPAssets } from '../assets/winxp'
 import { WinXPStartMenu } from './WinXPStartMenu'
 import { soundManager } from '../utils/sound-manager'
+import { useWindowManager } from '../hooks/useWindowManager'
 
 export const WinXPTaskbar = () => {
   const [isStartOpen, setIsStartOpen] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
-  const [openWindows, setOpenWindows] = useState<string[]>([])
+  const { windows, openWindow, activateWindow } = useWindowManager()
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -19,6 +20,10 @@ export const WinXPTaskbar = () => {
   const handleStartClick = () => {
     soundManager.play('click')
     setIsStartOpen(!isStartOpen)
+  }
+
+  const handleOpenWindow = (id: string, title: string) => {
+    openWindow(id, title)
   }
 
   return (
@@ -51,19 +56,26 @@ export const WinXPTaskbar = () => {
             <span className="font-bold text-white">Start</span>
           </button>
 
-          {/* Quick Launch */}
-          <div className="border-l border-blue-400 mx-2 h-8" />
-          <div className="flex space-x-1">
-            {['internetExplorer', 'myDocuments', 'security'].map((icon) => (
-              <button 
-                key={icon}
-                className="p-1 rounded hover:bg-blue-400/20"
+          {/* Window Buttons */}
+          <div className="flex-1 flex items-center ml-4 space-x-1">
+            {windows.map(window => (
+              <button
+                key={window.id}
+                onClick={() => activateWindow(window.id)}
+                className={`
+                  h-8 px-3 flex items-center space-x-2 rounded
+                  hover:brightness-110 transition-all
+                  ${window.isActive ? 'bg-blue-600' : 'bg-blue-500/50'}
+                `}
               >
                 <img 
-                  src={winXPAssets.icons[icon]} 
+                  src={winXPAssets.icons.folder} 
                   alt="" 
-                  className="w-6 h-6"
+                  className="w-4 h-4"
                 />
+                <span className="text-white text-sm truncate max-w-[120px]">
+                  {window.title}
+                </span>
               </button>
             ))}
           </div>
@@ -84,7 +96,8 @@ export const WinXPTaskbar = () => {
 
       <WinXPStartMenu 
         isOpen={isStartOpen} 
-        onClose={() => setIsStartOpen(false)} 
+        onClose={() => setIsStartOpen(false)}
+        onOpenWindow={handleOpenWindow}
       />
     </>
   )
