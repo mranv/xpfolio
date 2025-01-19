@@ -1,23 +1,20 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import { WinXPLayout } from './components/WinXPLayout'
 import { NotificationProvider } from './contexts/NotificationContext'
-import { Home } from './pages/Home'
-import { Dashboard } from './pages/Dashboard'
-import { Projects } from './pages/Projects'
+import { Routes } from './Routes'
 
 function App() {
   return (
-    <Router>
-      <NotificationProvider>
-        <WinXPLayout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/projects" element={<Projects />} />
-          </Routes>
-        </WinXPLayout>
-      </NotificationProvider>
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <NotificationProvider>
+          <WinXPLayout>
+            <Routes />
+          </WinXPLayout>
+        </NotificationProvider>
+      </Router>
+    </HelmetProvider>
   )
 }
 
