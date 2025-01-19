@@ -6,6 +6,7 @@ interface WinXPNotificationProps {
   title: string
   message: string
   type?: 'info' | 'error' | 'success'
+  icon?: string
   onClose: () => void
   isVisible: boolean
 }
@@ -14,10 +15,11 @@ export const WinXPNotification = ({
   title,
   message,
   type = 'info',
+  icon,
   onClose,
   isVisible
 }: WinXPNotificationProps) => {
-  const getIcon = () => {
+  const getDefaultIcon = () => {
     switch (type) {
       case 'error': return winXPAssets.icons.error
       case 'success': return winXPAssets.icons.success
@@ -29,10 +31,10 @@ export const WinXPNotification = ({
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }}
-          className="fixed bottom-16 right-4 w-80 shadow-lg rounded-lg overflow-hidden z-50"
+          initial={{ opacity: 0, y: 50, x: 50 }}
+          animate={{ opacity: 1, y: 0, x: 0 }}
+          exit={{ opacity: 0, x: 50 }}
+          className="w-80 shadow-lg rounded-lg overflow-hidden"
           style={{ 
             background: winXPColors.silver.light,
             border: `1px solid ${winXPColors.silver.dark}`
@@ -56,7 +58,7 @@ export const WinXPNotification = ({
 
           {/* Content */}
           <div className="p-4 flex items-start space-x-3">
-            <img src={getIcon()} alt="" className="w-8 h-8" />
+            <img src={icon || getDefaultIcon()} alt="" className="w-8 h-8" />
             <p className="text-sm">{message}</p>
           </div>
         </motion.div>
