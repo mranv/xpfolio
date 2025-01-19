@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import { WinXPWindow } from '../components/ui/WinXPWindow'
-import { WinXPButton } from '../components/ui/WinXPButton'
 import { winXPAssets } from '../assets/winxp'
 import { motion } from 'framer-motion'
 import { useNotification } from '../contexts/NotificationContext'
 
 export const Home = () => {
-  const { showNotification } = useNotification()
   const [windows, setWindows] = useState([
     { id: 'welcome', isOpen: true },
     { id: 'about', isOpen: false },
@@ -19,24 +17,8 @@ export const Home = () => {
     ))
   }
 
-  const handleTestNotification = () => {
-    showNotification(
-      'Welcome to Windows XP',
-      'This is a test notification to demonstrate the Windows XP style notifications.',
-      'info'
-    )
-  }
-
   return (
-    <div className="p-4">
-      {/* Add a test button */}
-      <WinXPButton 
-        onClick={handleTestNotification}
-        icon={winXPAssets.icons.info}
-      >
-        Show Notification
-      </WinXPButton>
-
+    <div className="min-h-screen">
       {/* Welcome Window */}
       {windows.find(w => w.id === 'welcome')?.isOpen && (
         <WinXPWindow
@@ -52,20 +34,18 @@ export const Home = () => {
               SIEM, cloud security, and vulnerability management.
             </p>
             <div className="flex gap-4">
-              <WinXPButton 
-                variant="primary"
+              <button 
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 onClick={() => toggleWindow('about')}
-                icon={winXPAssets.icons.myDocuments}
               >
                 About Me
-              </WinXPButton>
-              <WinXPButton 
-                variant="secondary"
+              </button>
+              <button 
+                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
                 onClick={() => toggleWindow('skills')}
-                icon={winXPAssets.icons.folder}
               >
                 View Skills
-              </WinXPButton>
+              </button>
             </div>
           </div>
         </WinXPWindow>

@@ -62,7 +62,7 @@ export const WinXPStartMenu = ({ isOpen, onClose, onOpenWindow }: StartMenuProps
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40"
+            className="fixed inset-0 z-40 bg-black/20"
             onClick={onClose}
           />
 
@@ -73,6 +73,7 @@ export const WinXPStartMenu = ({ isOpen, onClose, onOpenWindow }: StartMenuProps
             exit={{ opacity: 0, y: 20 }}
             className="fixed bottom-12 left-0 w-80 bg-white shadow-lg rounded-t-lg overflow-hidden z-50"
             style={{ border: `1px solid ${winXPColors.silver.dark}` }}
+            onClick={(e) => e.stopPropagation()}
           >
             {/* User Section */}
             <div className="p-4 flex items-center space-x-3" style={{ 
@@ -95,7 +96,7 @@ export const WinXPStartMenu = ({ isOpen, onClose, onOpenWindow }: StartMenuProps
                 <button
                   key={item.label}
                   onClick={item.onClick}
-                  className="w-full flex items-start p-2 hover:bg-blue-50 rounded group"
+                  className="w-full flex items-start p-2 hover:bg-blue-50 rounded group transition-colors"
                 >
                   <img src={item.icon} alt="" className="w-8 h-8 mr-3" />
                   <div className="text-left">
@@ -119,7 +120,7 @@ export const WinXPStartMenu = ({ isOpen, onClose, onOpenWindow }: StartMenuProps
                 <button
                   key={item.label}
                   onClick={item.onClick}
-                  className="w-full flex items-center space-x-3 p-2 hover:bg-blue-50 rounded"
+                  className="w-full flex items-center space-x-3 p-2 hover:bg-blue-50 rounded transition-colors"
                 >
                   <img src={item.icon} alt="" className="w-6 h-6" />
                   <span>{item.label}</span>

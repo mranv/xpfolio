@@ -17,10 +17,22 @@ export const WinXPTaskbar = () => {
     return () => clearInterval(timer)
   }, [])
 
-  const handleStartClick = () => {
+  const handleStartClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
     soundManager.play('click')
     setIsStartOpen(!isStartOpen)
   }
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      if (isStartOpen) {
+        setIsStartOpen(false)
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [isStartOpen])
 
   const handleOpenWindow = (id: string, title: string) => {
     openWindow(id, title)
@@ -34,6 +46,7 @@ export const WinXPTaskbar = () => {
           background: `linear-gradient(to bottom, ${winXPColors.blue.primary}, ${winXPColors.blue.secondary})`,
           borderTop: `1px solid ${winXPColors.blue.hover}`
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Start Button */}
         <div className="flex items-center">
